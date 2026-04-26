@@ -1,32 +1,69 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<h2>Student Management Dashboard</h2>
+<html>
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand">Student Management System</span>
+        <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+    </div>
+</nav>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-3">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 
-<div style="text-align:center;">
-    <a href="/add">Add Student</a>
-    <a href="/logout" style="background:red;">Logout</a>
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Student Management Dashboard</h2>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a href="/add" class="btn btn-success">Add Student</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+
+    <form method="GET" class="mb-3">
+        <input type="text" name="search" class="form-control" placeholder="Search by name">
+    </form>
+
+    <table class="table table-bordered table-hover bg-white">
+        <tr class="table-primary">
+            <th>ID</th><th>Name</th><th>Email</th><th>Course</th><th>Actions</th>
+        </tr>
+
+        {% for student in students %}
+        <tr>
+            <td>{{ student[0] }}</td>
+            <td>{{ student[1] }}</td>
+            <td>{{ student[2] }}</td>
+            <td>{{ student[3] }}</td>
+            <td>
+                <a href="/edit/{{ student[0] }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="/delete/{{ student[0] }}" 
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Are you sure you want to delete this student?')">
+   Delete
+</a>
+                
+    
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
 </div>
-<form method="GET" style="text-align:center; margin-top:20px;">
-    <input type="text" name="search" placeholder="Search by name">
-    <button type="submit">Search</button>
-</form>
-<h2>Student List</h2>
-<a href="/add">Add Student</a>
-
-<table border="1">
-<tr>
-<th>ID</th><th>Name</th><th>Email</th><th>Course</th><th>Actions</th>
-</tr>
-
-{% for student in students %}
-<tr>
-<td>{{ student[0] }}</td>
-<td>{{ student[1] }}</td>
-<td>{{ student[2] }}</td>
-<td>{{ student[3] }}</td>
-<td>
-<a href="/edit/{{ student[0] }}">Edit</a>
-<a href="/delete/{{ student[0] }}">Delete</a>
-</td>
-</tr>
-{% endfor %}
-</table>
+<footer class="text-center mt-4 mb-3 text-muted">
+    © 2026 Student Management System | Developed by Rohan
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
