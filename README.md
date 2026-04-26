@@ -24,10 +24,6 @@ It allows users to manage student records efficiently with authentication and se
 
 ---
 
-## 📸 Screenshots
-(Add screenshots here later)
-
----
 
 ## ▶️ How to Run
 1. Install dependencies:
