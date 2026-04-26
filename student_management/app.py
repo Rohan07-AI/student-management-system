@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
 
 app = Flask(__name__)
@@ -59,6 +58,7 @@ def add():
         )
         db.commit()
         return redirect('/')
+        flash("Student added successfully!", "success")
     return render_template('add.html')
 
 @app.route('/delete/<int:id>')
@@ -66,6 +66,7 @@ def delete(id):
     cursor.execute("DELETE FROM students WHERE id=%s", (id,))
     db.commit()
     return redirect('/')
+    flash("Student deleted successfully!", "danger")
 
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
@@ -80,6 +81,7 @@ def edit(id):
         )
         db.commit()
         return redirect('/')
+        flash("Student updated successfully!", "warning")
 
     cursor.execute("SELECT * FROM students WHERE id=%s", (id,))
     student = cursor.fetchone()
